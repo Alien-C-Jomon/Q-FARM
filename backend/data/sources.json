@@ -1,0 +1,52 @@
+
+{
+  "schema_version": 1,
+  "description": "Evidence registry for Q-FARM agricultural information.",
+  "source_priority": [
+    "government_agriculture_department",
+    "agricultural_university_or_extension",
+    "recognized_crop_research_institute",
+    "peer_reviewed_research",
+    "reputable_dated_reference",
+    "local_farm_survey"
+  ],
+  "sources": [
+    {
+      "source_id": "appachan_survey",
+      "title": "Local Farming Survey Notes",
+      "publisher": "Appachan farming survey",
+      "publication_date": null,
+      "url": null,
+      "source_type": "local_farm_survey",
+      "geographic_scope": "Local; exact location not documented",
+      "verification_status": "reported_not_independently_verified",
+      "limitations": [
+        "Survey date is unknown.",
+        "Farm-specific measurements are incomplete.",
+        "Reported practices are not automatically recommendations."
+      ]
+    },
+    {
+      "source_id": "cardamom_ph_reference",
+      "title": "Cardamom Soil pH Reference",
+      "publisher": "External online reference; source details not yet recorded",
+      "publication_date": null,
+      "url": null,
+      "source_type": "external_reference",
+      "geographic_scope": "Not documented",
+      "verification_status": "needs_source_verification",
+      "limitations": [
+        "The original URL and publication date are missing.",
+        "This reference does not represent a measured pH value for the user's farm."
+      ]
+    }
+  ],
+  "evidence_rules": [
+    "Keep local observations separate from published evidence.",
+    "Record the source title, publisher, date and URL whenever available.",
+    "Do not invent missing measurements, dates, locations or diagnoses.",
+    "Do not present uncertain observations as confirmed diagnoses.",
+    "Do not turn historical farm practices into automatic treatment instructions.",
+    "Prefer current, relevant government and recognized agricultural research sources."
+  ]
+}

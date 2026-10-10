@@ -1,0 +1,77 @@
+
+{
+  "crop_id": "black_pepper",
+  "crop_name": {
+    "en": "Black Pepper",
+    "ml": "കുരുമുളക്"
+  },
+  "data_type": "local_reference",
+  "source": "Appachan farming survey",
+  "values": {
+    "plant_density_per_acre": {
+      "reported_typical": 300,
+      "reported_upper_reference": 500,
+      "unit": "vines per acre",
+      "note": "Local reference values; spacing and growing conditions vary."
+    },
+    "production_start": {
+      "reported": 3,
+      "unit": "years after planting",
+      "note": "Approximate local survey reference, not a guarantee."
+    },
+    "yield_per_vine": {
+      "reported_typical_range": [6, 8],
+      "reported_favourable_case": 10,
+      "unit": "kg dried pepper per vine",
+      "note": "Reported local figures; measurement period and farm records require confirmation."
+    },
+    "harvest_season": {
+      "reported": ["January", "February"],
+      "reported_possible_extension": ["March"],
+      "note": "Approximate local reference period."
+    },
+    "organic_inputs": {
+      "reported_materials": [
+        "Cow manure",
+        "Bone powder",
+        "Dry manure",
+        "Other organic inputs"
+      ],
+      "reported_quantity_range": [500, 600],
+      "unit": "kg per acre per year",
+      "reported_application_period": "June",
+      "reported_cost_per_kg_inr": 50,
+      "note": "Historical local figures; exact material composition and current prices are unverified."
+    },
+    "irrigation": {
+      "reported_practice": "Generally rain-fed",
+      "separate_irrigation_schedule_documented": false,
+      "note": "Local observation, not a universal recommendation."
+    },
+    "reported_problems": [
+      {
+        "observation": "Node decline during the rainy season",
+        "diagnosis_status": "Unconfirmed",
+        "note": "Cause has not been conclusively identified in the survey."
+      },
+      {
+        "observation": "Slow drying",
+        "diagnosis_status": "Unconfirmed",
+        "note": "Meaning and cause need clarification."
+      }
+    ],
+    "reported_crop_protection_practice": {
+      "name": "Bordeaux mixture",
+      "reported_cost_per_acre_inr": 2500,
+      "cost_includes": "Labour, according to local report",
+      "note": "Recorded as a reported practice, not an automatic treatment recommendation."
+    }
+  },
+  "limitations": [
+    "Farm-specific soil measurements are not available.",
+    "Crop variety, vine age, farm coordinates, survey date and measured yield records are not documented.",
+    "Reported problems are not confirmed diagnoses.",
+    "Reported cultivation quantities and crop-protection practices must not automatically become recommendations.",
+    "Historical local prices may differ from current prices."
+  ]
+}

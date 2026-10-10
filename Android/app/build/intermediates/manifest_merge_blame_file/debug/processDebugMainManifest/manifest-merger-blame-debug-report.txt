@@ -1,0 +1,48 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.qfarm.app"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="23"
+9        android:targetSdkVersion="28" />
+10
+11    <application
+11-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:3:5-22:19
+12        android:allowBackup="false"
+12-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:4:9-36
+13        android:debuggable="true"
+14        android:extractNativeLibs="false"
+15        android:icon="@drawable/qfarm_icon"
+15-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:6:9-44
+16        android:label="Q-FARM"
+16-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:5:9-31
+17        android:roundIcon="@drawable/qfarm_icon"
+17-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:7:9-49
+18        android:theme="@android:style/Theme.Material.Light.NoActionBar"
+18-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:8:9-72
+19        android:usesCleartextTraffic="false" >
+19-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:9:9-45
+20        <activity
+20-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:11:9-21:20
+21            android:name="com.qfarm.app.MainActivity"
+21-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:12:13-41
+22            android:exported="true"
+22-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:13:13-36
+23            android:screenOrientation="unspecified" >
+23-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:14:13-52
+24            <intent-filter>
+24-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:16:13-19:29
+25                <action android:name="android.intent.action.MAIN" />
+25-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:17:17-69
+25-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:17:25-66
+26
+27                <category android:name="android.intent.category.LAUNCHER" />
+27-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:18:17-77
+27-->C:\Users\Alien C Jomon\Documents\Q-FARM\Android\app\src\main\AndroidManifest.xml:18:27-74
+28            </intent-filter>
+29        </activity>
+30    </application>
+31
+32</manifest>

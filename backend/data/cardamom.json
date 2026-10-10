@@ -1,0 +1,88 @@
+
+{
+  "crop_id": "cardamom",
+  "crop_name": {
+    "en": "Cardamom",
+    "ml": "ഏലം"
+  },
+  "data_type": "local_reference",
+  "source": "Appachan farming survey",
+  "values": {
+    "productive_lifespan_years": {
+      "reported": [10, 15],
+      "unit": "years",
+      "note": "Approximately 10 years; some varieties reportedly reach around 15 years."
+    },
+    "plant_density_per_acre": {
+      "reported_typical": 300,
+      "reported_upper_reference": 500,
+      "unit": "plants per acre",
+      "note": "Local reference values; spacing and conditions vary."
+    },
+    "yield_per_plant": {
+      "reported": 5,
+      "unit": "kg per plant per year",
+      "note": "Reported under healthy conditions; not a guaranteed yield."
+    },
+    "harvest_pickings": {
+      "reported_typical": 4,
+      "reported_possible": [6, 7],
+      "unit": "pickings",
+      "note": "Higher picking counts were associated with excellent irrigation in the survey."
+    },
+    "picking_interval": {
+      "reported": 45,
+      "unit": "days"
+    },
+    "harvest_season": {
+      "reported": [
+        "July", "August", "September",
+        "October", "November", "December"
+      ],
+      "note": "Approximate local reference period."
+    },
+    "summer_irrigation": {
+      "reported_frequency": "At least twice weekly; potentially more when necessary",
+      "reported_water_per_plant": [20, 25],
+      "water_unit": "litres per plant per watering",
+      "note": "Local report only; actual needs depend on soil, rainfall, drainage and crop conditions."
+    },
+    "soil": {
+      "reported_local_term": "Pashiparashi",
+      "reported_characteristic": "High water-holding capacity, as described in the survey",
+      "pH_reference": [5.5, 6.5],
+      "pH_source_type": "External online reference",
+      "farm_pH_measured": false
+    },
+    "fertilizer": {
+      "reported_npk_quantity": 1,
+      "npk_unit": "kg per plant per application",
+      "reported_npk_applications_per_year": 2,
+      "reported_compost_quantity": 2,
+      "compost_unit": "kg per plant per application",
+      "reported_compost_applications_per_year": 2,
+      "note": "Historical local figures, not verified recommendations."
+    },
+    "expenses_inr": {
+      "npk_bag_price": 2000,
+      "npk_bag_weight_kg": 50,
+      "reported_pesticide_cost_range": [1500, 3000],
+      "reported_pesticide_cost_period": "month",
+      "reported_labour_cost_range": [500, 800],
+      "note": "Reported local prices; dates and current market prices are unknown."
+    },
+    "reported_problems": [
+      "Worms",
+      "Nematodes",
+      "Root-eating worms",
+      "Stem borer",
+      "Scars or marks on fruit associated with itching"
+    ]
+  },
+  "limitations": [
+    "Farm soil pH has not been measured in the available survey notes.",
+    "Crop variety, plant age, farm coordinates, survey date and measured harvest records are not documented.",
+    "Reported symptoms are not confirmed diagnoses.",
+    "Reported cultivation quantities must not automatically become recommendations."
+  ]
+}

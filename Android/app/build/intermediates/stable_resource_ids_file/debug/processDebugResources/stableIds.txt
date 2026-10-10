@@ -1,0 +1,1 @@
+com.qfarm.app:drawable/qfarm_icon = 0x7f010000

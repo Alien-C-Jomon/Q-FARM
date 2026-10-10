@@ -1,0 +1,1160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f8ee">
+<title>My Farm | Q-FARM</title>
+<link rel="stylesheet" href="/ui/styles.css">
+
+<style>
+:root {
+    --green: #315c3c;
+    --light: #edf3e4;
+    --border: #dce5d4;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: #f7f8ee;
+    color: #263b2b;
+    font-family: system-ui, -apple-system, "Noto Sans Malayalam",
+        "Nirmala UI", sans-serif;
+}
+button, select, textarea { font: inherit; }
+.dashboard { max-width: 1180px; margin: auto; padding: 25px 22px 70px; }
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.back-link { color: var(--green); text-decoration: none; font-weight: 700; }
+.language-switch {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 9px 12px;
+    background: #fffef9;
+    color: var(--green);
+    font-weight: 700;
+    cursor: pointer;
+}
+.welcome { margin: 32px 0 25px; }
+.welcome h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin: 8px 0;
+    letter-spacing: -1.5px;
+}
+.muted { color: #72806e; }
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 24px 0;
+}
+.panel, .stat {
+    background: #fffef9;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 22px;
+    min-width: 0;
+}
+.stat strong { display: block; font-size: 1.8rem; margin: 8px 0; }
+.workspace {
+    display: grid;
+    grid-template-columns: 1.25fr .75fr;
+    gap: 20px;
+    align-items: start;
+}
+.plot {
+    position: relative;
+    overflow: hidden;
+    background: #e9f0db;
+    border: 1px solid #d5e2c8;
+    border-radius: 24px;
+    margin-top: 18px;
+}
+.plot svg { display: block; width: 100%; height: auto; }
+.zone {
+    cursor: pointer;
+    transition: filter .2s;
+    stroke: #557b4c;
+    stroke-width: 2;
+}
+.zone:hover, .zone:focus {
+    filter: brightness(1.08);
+    stroke: #234e30;
+    stroke-width: 4;
+    outline: none;
+}
+.zone-label {
+    font-size: 14px;
+    font-weight: 700;
+    fill: #24442c;
+    pointer-events: none;
+}
+.map-note, .queue-note {
+    font-size: .85rem;
+    color: #72806e;
+    line-height: 1.6;
+    margin-top: 12px;
+}
+.zone-info {
+    margin-top: 16px;
+    padding: 17px;
+    background: #f0f5e9;
+    border-radius: 15px;
+    line-height: 1.7;
+}
+.task { border-bottom: 1px solid var(--border); padding: 17px 0; }
+.task:last-child { border-bottom: 0; }
+.task h3 { font-size: 1rem; margin: 0 0 6px; }
+.task p {
+    font-size: .9rem;
+    line-height: 1.7;
+    color: #72806e;
+    margin: 5px 0 12px;
+}
+.task-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.action {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 12px;
+    background: white;
+    color: var(--green);
+    font-weight: 700;
+    cursor: pointer;
+}
+.action:hover { background: var(--light); }
+.action:disabled { opacity: .55; cursor: wait; }
+.assistant-note { line-height: 1.8; color: #72806e; }
+.chat-messages {
+    min-height: 120px;
+    max-height: 390px;
+    overflow-y: auto;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin: 16px 0;
+    background: #fbfcf7;
+}
+.chat-message {
+    padding: 11px 13px;
+    margin: 9px 0;
+    border-radius: 12px;
+    overflow-wrap: anywhere;
+}
+.user-message { background: #e8f3e8; }
+.assistant-message { background: #f0f2e9; }
+.chat-message p {
+    margin: 6px 0 0;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+.chat-message table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+}
+.chat-message th, .chat-message td {
+    border: 1px solid var(--border);
+    padding: 6px;
+    text-align: left;
+}
+.chat-form textarea {
+    display: block;
+    width: 100%;
+    min-height: 90px;
+    resize: vertical;
+    padding: 12px;
+    margin: 8px 0 12px;
+    border: 1px solid #cbd5cb;
+    border-radius: 12px;
+    background: white;
+    color: #263b2b;
+}
+.chat-form label { font-weight: 650; }
+.chat-status { min-height: 1.5em; }
+
+/* Q-FARM crop image recognition */
+.vision-panel { margin-top: 20px; }
+.vision-form {
+    display: grid;
+    gap: 14px;
+    margin-top: 18px;
+}
+.vision-form label { font-weight: 650; }
+.vision-form select,
+.vision-form input[type="file"] {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #cbd5cb;
+    border-radius: 12px;
+    background: white;
+    color: #263b2b;
+}
+.vision-preview {
+    display: none;
+    max-width: 100%;
+    max-height: 320px;
+    margin-top: 12px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    object-fit: contain;
+    background: #f0f5e9;
+}
+.vision-result {
+    margin-top: 18px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: #f0f5e9;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+.vision-result[hidden] { display: none; }
+.vision-result-text {
+    white-space: pre-wrap;
+    margin-top: 10px;
+}
+.vision-status {
+    min-height: 1.5em;
+    color: #72806e;
+    line-height: 1.6;
+}
+button:focus-visible, a:focus-visible, select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid #7b9f68;
+    outline-offset: 3px;
+}
+@media (max-width: 760px) {
+    .workspace, .stats { grid-template-columns: 1fr; }
+    .dashboard { padding: 20px 14px 45px; }
+    .panel, .stat { padding: 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+</style>
+</head>
+
+<body>
+<main class="dashboard">
+
+    <div class="topbar">
+        <a class="back-link" href="/" data-i18n="back">← Back to Q-FARM</a>
+        <button type="button" class="language-switch" id="languageSwitch"
+                aria-label="Switch application language">
+            മലയാളം
+        </button>
+    </div>
+
+    <section class="welcome">
+        <p class="muted" data-i18n="tagline">YOUR LITTLE PIECE OF GREEN 🌱</p>
+        <h1><span data-i18n="title">My Farm</span><span style="color:#8aa878">.</span></h1>
+        <p class="muted" data-i18n="subtitle">
+            Observe your land. Record your work. Learn as you grow.
+        </p>
+    </section>
+
+    <section class="stats">
+        <div class="stat">
+            <span class="muted" data-i18n="zones">Crop zones</span>
+            <strong>02</strong>
+            <span class="muted" data-i18n="cropNames">Cardamom &amp; pepper</span>
+        </div>
+        <div class="stat">
+            <span class="muted" data-i18n="completed">Tasks completed today</span>
+            <strong id="completedCount">0</strong>
+            <span class="muted" data-i18n="saved">Saved in SQLite history</span>
+        </div>
+        <div class="stat">
+            <span class="muted" data-i18n="remaining">Tasks remaining today</span>
+            <strong id="remainingCount">10</strong>
+            <span class="muted" data-i18n="pending">Pending tasks in the queue</span>
+        </div>
+    </section>
+
+    <section class="workspace">
+        <div class="panel">
+            <h2 data-i18n="explore">Explore your land</h2>
+            <p class="muted" data-i18n="mapInstruction">Select a coloured zone to explore it.</p>
+
+            <div class="plot">
+                <svg viewBox="0 0 520 390" role="img"
+                     data-i18n-aria="mapAria" aria-label="Illustrative farm map">
+                    <defs>
+                        <pattern id="soil" width="25" height="25" patternUnits="userSpaceOnUse">
+                            <circle cx="5" cy="6" r="1.5" fill="#b4c89e"/>
+                            <circle cx="18" cy="18" r="1" fill="#b4c89e"/>
+                        </pattern>
+                    </defs>
+
+                    <path d="M55 85 L135 42 L260 57 L355 36 L459 100 L478 206 L440 309 L347 350 L217 335 L111 353 L48 268 L35 171 Z"
+                          fill="#d4e4c1" stroke="#7f9e6d" stroke-width="3"
+                          stroke-dasharray="6 5"/>
+
+                    <path d="M55 85 L135 42 L260 57 L275 156 L185 194 L90 177 Z"
+                          fill="url(#soil)"/>
+
+                    <path class="zone" tabindex="0" role="button"
+                          data-zone="cardamom" data-i18n-aria="cardamomZone"
+                          aria-label="Cardamom zone"
+                          d="M55 85 L135 42 L260 57 L275 156 L185 194 L90 177 Z"
+                          fill="#b8d6a3"/>
+
+                    <path class="zone" tabindex="0" role="button"
+                          data-zone="pepper" data-i18n-aria="pepperZone"
+                          aria-label="Pepper zone"
+                          d="M275 156 L260 57 L355 36 L459 100 L478 206 L365 224 Z"
+                          fill="#d8e8bb"/>
+
+                    <path class="zone" tabindex="0" role="button"
+                          data-zone="mixed" data-i18n-aria="mixedZone"
+                          aria-label="Mixed crop zone"
+                          d="M90 177 L185 194 L275 156 L365 224 L347 350 L217 335 L111 353 L48 268 Z"
+                          fill="#c4dcb1"/>
+
+                    <path d="M70 236 Q165 218 232 251 T437 264"
+                          fill="none" stroke="#e7dfb9" stroke-width="12"
+                          stroke-linecap="round"/>
+
+                    <g fill="#547e47">
+                        <circle cx="105" cy="112" r="7"/>
+                        <circle cx="145" cy="91" r="7"/>
+                        <circle cx="205" cy="111" r="7"/>
+                        <circle cx="235" cy="145" r="7"/>
+                        <circle cx="325" cy="90" r="7"/>
+                        <circle cx="370" cy="116" r="7"/>
+                        <circle cx="421" cy="151" r="7"/>
+                        <circle cx="139" cy="252" r="7"/>
+                        <circle cx="202" cy="286" r="7"/>
+                        <circle cx="285" cy="278" r="7"/>
+                        <circle cx="370" cy="294" r="7"/>
+                    </g>
+
+                    <g class="zone-label">
+                        <text x="110" y="137" data-i18n-svg="mapCardamom">CARDAMOM</text>
+                        <text x="324" y="180" data-i18n-svg="mapPepper">PEPPER</text>
+                        <text x="183" y="319" data-i18n-svg="mapMixed">MIXED ZONE</text>
+                    </g>
+                </svg>
+            </div>
+
+            <p class="map-note" data-i18n="mapNote">
+                Illustrative layout only — not a measured boundary or verified planting map.
+            </p>
+
+            <div class="zone-info" id="zoneInfo" aria-live="polite">
+                <strong data-i18n="welcomeZone">🌿 Welcome to your farm</strong>
+                <p data-i18n="zonePrompt">Select a zone on the map to see its crop information.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2 data-i18n="observations">Today's observations</h2>
+            <p class="muted" data-i18n="taskInstruction">
+                Complete or skip a task to reveal the next one.
+            </p>
+
+            <div id="taskList" aria-live="polite">
+                <p class="muted" data-i18n="loading">Loading your farm tasks...</p>
+            </div>
+
+            <p class="queue-note" data-i18n="taskDisclaimer">
+                Tasks are observation prompts, not diagnoses or automatic treatment instructions.
+                Completed and skipped tasks remain in your saved history.
+            </p>
+        </div>
+    </section>
+
+
+<!-- Crop Image Recognition -->
+<section class="panel vision-panel" aria-labelledby="vision-heading">
+    <h2 id="vision-heading">🔎 <span id="visionTitle">Crop Image Recognition</span></h2>
+
+    <p class="assistant-note" id="visionDescription">
+        Upload a photograph of your cardamom or black pepper plant for
+        AI-assisted visual observations.
+    </p>
+
+    <form id="visionForm" class="vision-form">
+        <div>
+            <label for="visionCrop" id="visionCropLabel">Select your crop</label>
+            <select id="visionCrop" name="crop_id" required>
+                <option value="cardamom">Cardamom (ഏലം)</option>
+                <option value="black_pepper">Black pepper (കുരുമുളക്)</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="visionImage" id="visionImageLabel">Choose a plant image</label>
+            <input
+                type="file"
+                id="visionImage"
+                name="image"
+                accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                required
+            >
+            <img
+                id="visionPreview"
+                class="vision-preview"
+                alt="Selected crop image preview"
+            >
+        </div>
+
+        <button type="submit" class="action" id="visionSubmit">
+            🔍 Analyze Crop Image
+        </button>
+
+        <p id="visionStatus" class="vision-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <div id="visionResult" class="vision-result" hidden aria-live="polite">
+        <strong id="visionResultTitle">Image analysis</strong>
+        <div id="visionResultText" class="vision-result-text"></div>
+    </div>
+
+    <p class="assistant-note" id="visionDisclaimer">
+        AI observations are not a confirmed diagnosis. Consult a qualified
+        agricultural officer or Krishi Bhavan when necessary.
+    </p>
+</section>
+
+    <!-- Bilingual AI assistant -->
+    <section class="panel" style="margin-top:20px" aria-labelledby="assistant-heading">
+        <h2 id="assistant-heading" data-i18n="assistantTitle">🤖 Farm assistant</h2>
+        <p class="assistant-note" data-i18n="assistantText">
+            Ask farming questions in Malayalam or English. Answers are general guidance.
+        </p>
+
+        <div id="chatMessages" class="chat-messages" role="log" aria-live="polite">
+            <p data-i18n="chatWelcome">
+                🌱 Hello! Ask me a question about cardamom or black pepper.
+            </p>
+        </div>
+
+        <form id="chatForm" class="chat-form">
+            <label for="chatQuestion" data-i18n="chatLabel">Your farming question</label>
+            <textarea id="chatQuestion" maxlength="1500" rows="3" required
+                      data-i18n-placeholder="chatPlaceholder"
+                      placeholder="Ask about soil, leaves, drainage..."></textarea>
+            <button type="submit" class="action" id="chatSend" data-i18n="chatSend">
+                Send question
+            </button>
+            <p id="chatStatus" class="assistant-note chat-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="assistant-note" data-i18n="chatDisclaimer">
+            Avoid sharing private information. Verify important crop-health decisions with a qualified agricultural officer.
+        </p>
+    </section>
+
+</main>
+
+<script>
+(() => {
+    "use strict";
+
+    const API = "/api/tasks";
+    const HISTORY_API = "/api/tasks/today";
+    const VISIBLE_TASK_LIMIT = 3;
+
+    const translations = {
+        en: {
+            back: "← Back to Q-FARM",
+            tagline: "YOUR LITTLE PIECE OF GREEN 🌱",
+            title: "My Farm",
+            subtitle: "Observe your land. Record your work. Learn as you grow.",
+            zones: "Crop zones",
+            cropNames: "Cardamom & pepper",
+            completed: "Tasks completed today",
+            saved: "Saved in SQLite history",
+            remaining: "Tasks remaining today",
+            pending: "Pending tasks in the queue",
+            explore: "Explore your land",
+            mapInstruction: "Select a coloured zone to explore it.",
+            mapAria: "Illustrative farm map with cardamom and pepper zones",
+            cardamomZone: "Cardamom zone",
+            pepperZone: "Pepper zone",
+            mixedZone: "Mixed crop zone",
+            mapCardamom: "CARDAMOM",
+            mapPepper: "PEPPER",
+            mapMixed: "MIXED ZONE",
+            mapNote: "Illustrative layout only — not a measured boundary or verified planting map.",
+            welcomeZone: "🌿 Welcome to your farm",
+            zonePrompt: "Select a zone on the map to see its crop information.",
+            observations: "Today's observations",
+            taskInstruction: "Complete or skip a task to reveal the next one.",
+            loading: "Loading your farm tasks...",
+            taskDisclaimer: "Tasks are observation prompts, not diagnoses or automatic treatment instructions. Completed and skipped tasks remain in your saved history.",
+            assistantTitle: "🤖 Farm assistant",
+            assistantText: "Ask farming questions in Malayalam or English. Answers are general guidance, not verified farm-specific diagnoses. Check important decisions with a qualified agricultural officer.",
+            chatWelcome: "🌱 Hello! Ask me a question about cardamom or black pepper.",
+            chatLabel: "Your farming question",
+            chatPlaceholder: "Ask about soil, leaves, drainage...",
+            chatSend: "Send question",
+            chatThinking: "🌱 Thinking... Please wait.",
+            chatError: "The assistant is temporarily unavailable. Please try again.",
+            chatEmpty: "Please enter a farming question.",
+            chatDisclaimer: "Avoid sharing private information. Verify important crop-health decisions with a qualified agricultural officer.",
+            checkSoil: "Check soil moisture",
+            checkSoilDesc: "Observe whether the soil feels unusually dry or wet.",
+            inspectLeaves: "Inspect leaves",
+            inspectLeavesDesc: "Look for unusual colour changes or visible damage.",
+            pepperVines: "Check pepper vines",
+            pepperVinesDesc: "Observe support, new growth, and visible issues.",
+            drainage: "Inspect drainage",
+            drainageDesc: "Look for standing water or blocked drainage paths.",
+            shade: "Observe shade",
+            shadeDesc: "Notice whether crop areas receive their usual shade.",
+            weeds: "Check for weeds",
+            weedsDesc: "Identify unwanted plants around your crops.",
+            mulch: "Observe ground cover",
+            mulchDesc: "Check existing mulch or ground cover.",
+            support: "Inspect plant supports",
+            supportDesc: "Check whether supports appear stable and secure.",
+            health: "Observe plant health",
+            healthDesc: "Record unusual spots, wilting, or visible changes.",
+            flowering: "Observe flowering",
+            floweringDesc: "Record whether flowering is visible in your crops.",
+            markDone: "Mark done",
+            skip: "Skip",
+            saving: "Saving...",
+            moreTasks: n => `${n} more task(s) will appear as you handle the tasks above.`,
+            allCaughtUp: "🎉 You're all caught up!",
+            allDone: "All 10 tasks have been completed or skipped. Your recorded history remains saved in SQLite.",
+            loadError: "⚠️ Could not load farm history",
+            loadErrorText: "Check that the Q-FARM Flask server is running, then reload this page. Your saved records have not been intentionally changed.",
+            saveError: "The task could not be saved. It will remain pending. Check the server connection and try again.",
+            cardamomTitle: "🌱 Cardamom zone",
+            cardamomText: "Observe shade, soil moisture, leaf condition, and drainage. Farm measurements have not been supplied yet.",
+            pepperTitle: "🌿 Black pepper zone",
+            pepperText: "Observe vine support, new growth, and soil moisture. Do not assume every vine needs the same care.",
+            mixedTitle: "🌳 Mixed crop zone",
+            mixedText: "Use this area to record mixed planting observations. Confirm actual crops and boundaries before planning work.",
+            english: "English",
+            malayalam: "മലയാളം"
+        },
+        ml: {
+            back: "← Q-FARM-ലേക്ക് മടങ്ങുക",
+            tagline: "നിങ്ങളുടെ പച്ചപ്പുനിറഞ്ഞ കൃഷിയിടം 🌱",
+            title: "എന്റെ കൃഷിയിടം",
+            subtitle: "കൃഷിയിടം നിരീക്ഷിക്കുക. ജോലികൾ രേഖപ്പെടുത്തുക. അനുഭവത്തിലൂടെ പഠിക്കുക.",
+            zones: "വിള മേഖലകൾ",
+            cropNames: "ഏലക്കയും കുരുമുളകും",
+            completed: "ഇന്ന് പൂർത്തിയാക്കിയ ജോലികൾ",
+            saved: "SQLite-ൽ ചരിത്രം സൂക്ഷിക്കുന്നു",
+            remaining: "ഇന്ന് ബാക്കിയുള്ള ജോലികൾ",
+            pending: "ചെയ്യാനുള്ള ജോലികൾ",
+            explore: "നിങ്ങളുടെ കൃഷിയിടം കാണുക",
+            mapInstruction: "വിവരങ്ങൾ കാണാൻ ഒരു നിറമുള്ള മേഖല തിരഞ്ഞെടുക്കുക.",
+            mapAria: "ഏലക്ക, കുരുമുളക് മേഖലകളുടെ മാതൃകാ ഭൂപടം",
+            cardamomZone: "ഏലക്ക മേഖല",
+            pepperZone: "കുരുമുളക് മേഖല",
+            mixedZone: "മിശ്രവിള മേഖല",
+            mapCardamom: "ഏലക്ക",
+            mapPepper: "കുരുമുളക്",
+            mapMixed: "മിശ്രവിള മേഖല",
+            mapNote: "ഇത് ഒരു മാതൃകാ ഭൂപടം മാത്രമാണ്. യഥാർത്ഥ അതിർത്തികളോ നടീൽ വിവരങ്ങളോ ഇതിൽ കാണിക്കുന്നില്ല.",
+            welcomeZone: "🌿 നിങ്ങളുടെ കൃഷിയിടത്തിലേക്ക് സ്വാഗതം",
+            zonePrompt: "വിളയെക്കുറിച്ചുള്ള വിവരങ്ങൾ കാണാൻ ഭൂപടത്തിലെ ഒരു മേഖല തിരഞ്ഞെടുക്കുക.",
+            observations: "ഇന്നത്തെ നിരീക്ഷണങ്ങൾ",
+            taskInstruction: "ഒരു ജോലി പൂർത്തിയാക്കുകയോ ഒഴിവാക്കുകയോ ചെയ്യുമ്പോൾ അടുത്ത ജോലി കാണാം.",
+            loading: "കൃഷിപ്പണികൾ ലോഡ് ചെയ്യുന്നു...",
+            taskDisclaimer: "ഇവ നിരീക്ഷണത്തിനുള്ള നിർദേശങ്ങളാണ്; രോഗനിർണയമോ സ്വയമേവയുള്ള ചികിത്സാ നിർദേശങ്ങളോ അല്ല. പൂർത്തിയാക്കിയതും ഒഴിവാക്കിയതുമായ ജോലികൾ ചരിത്രത്തിൽ സൂക്ഷിക്കും.",
+            assistantTitle: "🤖 കൃഷി സഹായി",
+            assistantText: "മലയാളത്തിലോ ഇംഗ്ലീഷിലോ കൃഷിയെക്കുറിച്ച് ചോദിക്കൂ. മറുപടികൾ പൊതുവായ മാർഗനിർദേശങ്ങളാണ്; നിങ്ങളുടെ കൃഷിയിടത്തെക്കുറിച്ചുള്ള സ്ഥിരീകരിച്ച രോഗനിർണയമല്ല.",
+            chatWelcome: "🌱 നമസ്കാരം! ഏലം അല്ലെങ്കിൽ കുരുമുളക് കൃഷിയെക്കുറിച്ച് ചോദിക്കൂ.",
+            chatLabel: "നിങ്ങളുടെ കൃഷി ചോദ്യം",
+            chatPlaceholder: "മണ്ണ്, ഇലകൾ, നീർവാർച്ച എന്നിവയെക്കുറിച്ച് ചോദിക്കൂ...",
+            chatSend: "ചോദ്യം അയയ്ക്കുക",
+            chatThinking: "🌱 മറുപടി തയ്യാറാക്കുന്നു... കാത്തിരിക്കൂ.",
+            chatError: "ഇപ്പോൾ സഹായിയെ ബന്ധപ്പെടാൻ കഴിയുന്നില്ല. വീണ്ടും ശ്രമിക്കൂ.",
+            chatEmpty: "ദയവായി ഒരു കൃഷി ചോദ്യം നൽകുക.",
+            chatDisclaimer: "സ്വകാര്യ വിവരങ്ങൾ പങ്കിടരുത്. വിളകളുടെ ആരോഗ്യത്തെക്കുറിച്ചുള്ള പ്രധാന തീരുമാനങ്ങൾ കൃഷി ഉദ്യോഗസ്ഥനുമായി സ്ഥിരീകരിക്കുക.",
+            checkSoil: "മണ്ണിലെ ഈർപ്പം പരിശോധിക്കുക",
+            checkSoilDesc: "മണ്ണ് അസാധാരണമായി വരണ്ടതാണോ നനഞ്ഞതാണോ എന്ന് നിരീക്ഷിക്കുക.",
+            inspectLeaves: "ഇലകൾ പരിശോധിക്കുക",
+            inspectLeavesDesc: "നിറവ്യത്യാസമോ കാണാവുന്ന കേടുപാടുകളോ ഉണ്ടോ എന്ന് നോക്കുക.",
+            pepperVines: "കുരുമുളക് വള്ളികൾ പരിശോധിക്കുക",
+            pepperVinesDesc: "താങ്ങ്, പുതിയ വളർച്ച, കാണാവുന്ന പ്രശ്നങ്ങൾ എന്നിവ നിരീക്ഷിക്കുക.",
+            drainage: "നീർവാർച്ച പരിശോധിക്കുക",
+            drainageDesc: "വെള്ളം കെട്ടിനിൽക്കുന്നതോ നീർവാർച്ച തടസ്സപ്പെട്ടതോ ആണോ എന്ന് നോക്കുക.",
+            shade: "തണൽ നിരീക്ഷിക്കുക",
+            shadeDesc: "വിളകൾക്ക് പതിവുപോലെ തണൽ ലഭിക്കുന്നുണ്ടോ എന്ന് ശ്രദ്ധിക്കുക.",
+            weeds: "കളകൾ പരിശോധിക്കുക",
+            weedsDesc: "വിളകൾക്കു ചുറ്റുമുള്ള അനാവശ്യ സസ്യങ്ങളെ തിരിച്ചറിയുക.",
+            mulch: "നിലത്തെ ആവരണം നിരീക്ഷിക്കുക",
+            mulchDesc: "നിലത്തുള്ള പുതയിടലോ മറ്റ് ആവരണമോ പരിശോധിക്കുക.",
+            support: "ചെടികളുടെ താങ്ങുകൾ പരിശോധിക്കുക",
+            supportDesc: "താങ്ങുകൾ ഉറപ്പുള്ളതും സ്ഥിരതയുള്ളതുമാണോ എന്ന് നോക്കുക.",
+            health: "ചെടികളുടെ ആരോഗ്യം നിരീക്ഷിക്കുക",
+            healthDesc: "അസാധാരണമായ പാടുകൾ, വാട്ടം, മറ്റ് മാറ്റങ്ങൾ എന്നിവ രേഖപ്പെടുത്തുക.",
+            flowering: "പൂക്കൽ നിരീക്ഷിക്കുക",
+            floweringDesc: "വിളകളിൽ പൂക്കൾ കാണുന്നുണ്ടോ എന്ന് രേഖപ്പെടുത്തുക.",
+            markDone: "പൂർത്തിയായി",
+            skip: "ഒഴിവാക്കുക",
+            saving: "സൂക്ഷിക്കുന്നു...",
+            moreTasks: n => `ഇതിന് ശേഷം ${n} ജോലികൾ കൂടി കാണിക്കും.`,
+            allCaughtUp: "🎉 ഇന്നത്തെ ജോലികൾ പൂർത്തിയായി!",
+            allDone: "10 ജോലികളും പൂർത്തിയാക്കി അല്ലെങ്കിൽ ഒഴിവാക്കി. രേഖകൾ SQLite-ൽ സൂക്ഷിച്ചിരിക്കുന്നു.",
+            loadError: "⚠️ കൃഷിപ്പണികളുടെ ചരിത്രം ലോഡ് ചെയ്യാനായില്ല",
+            loadErrorText: "Q-FARM Flask സർവർ പ്രവർത്തിക്കുന്നുണ്ടെന്ന് ഉറപ്പാക്കി പേജ് വീണ്ടും തുറക്കുക. നിങ്ങളുടെ രേഖകൾ മനഃപൂർവം മാറ്റിയിട്ടില്ല.",
+            saveError: "ജോലി സൂക്ഷിക്കാനായില്ല. അത് ചെയ്യാനുള്ള പട്ടികയിൽ തുടരും. സർവർ കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.",
+            cardamomTitle: "🌱 ഏലക്ക മേഖല",
+            cardamomText: "തണൽ, മണ്ണിലെ ഈർപ്പം, ഇലകളുടെ അവസ്ഥ, നീർവാർച്ച എന്നിവ നിരീക്ഷിക്കുക. കൃഷിയിടത്തിന്റെ അളവുകൾ ഇതുവരെ നൽകിയിട്ടില്ല.",
+            pepperTitle: "🌿 കുരുമുളക് മേഖല",
+            pepperText: "വള്ളിയുടെ താങ്ങ്, പുതിയ വളർച്ച, മണ്ണിലെ ഈർപ്പം എന്നിവ നിരീക്ഷിക്കുക. എല്ലാ വള്ളികൾക്കും ഒരേ പരിചരണം ആവശ്യമാണെന്ന് കരുതരുത്.",
+            mixedTitle: "🌳 മിശ്രവിള മേഖല",
+            mixedText: "വിവിധ വിളകളെക്കുറിച്ചുള്ള നിരീക്ഷണങ്ങൾ ഇവിടെ രേഖപ്പെടുത്താം. ജോലികൾ ആസൂത്രണം ചെയ്യുന്നതിന് മുമ്പ് യഥാർത്ഥ വിളകളും അതിർത്തികളും സ്ഥിരീകരിക്കുക.",
+            english: "English",
+            malayalam: "മലയാളം"
+        }
+    };
+
+    const tasks = [
+        {key:"soil", icon:"💧", title:"checkSoil", description:"checkSoilDesc"},
+        {key:"leaves", icon:"🍃", title:"inspectLeaves", description:"inspectLeavesDesc"},
+        {key:"pepper", icon:"🌿", title:"pepperVines", description:"pepperVinesDesc"},
+        {key:"drainage", icon:"🌧️", title:"drainage", description:"drainageDesc"},
+        {key:"shade", icon:"🌳", title:"shade", description:"shadeDesc"},
+        {key:"weeds", icon:"🌱", title:"weeds", description:"weedsDesc"},
+        {key:"mulch", icon:"🍂", title:"mulch", description:"mulchDesc"},
+        {key:"support", icon:"🪴", title:"support", description:"supportDesc"},
+        {key:"disease", icon:"🔎", title:"health", description:"healthDesc"},
+        {key:"flowering", icon:"🌼", title:"flowering", description:"floweringDesc"}
+    ];
+
+    const taskStates = Object.fromEntries(tasks.map(task => [task.key, null]));
+    const completedCount = document.getElementById("completedCount");
+    const remainingCount = document.getElementById("remainingCount");
+    const taskList = document.getElementById("taskList");
+    const zoneInfo = document.getElementById("zoneInfo");
+    const languageSwitch = document.getElementById("languageSwitch");
+
+    const chatForm = document.getElementById("chatForm");
+    const chatQuestion = document.getElementById("chatQuestion");
+    const chatMessages = document.getElementById("chatMessages");
+    const chatSend = document.getElementById("chatSend");
+    const chatStatus = document.getElementById("chatStatus");
+
+    let language = "en";
+    let saving = false;
+    let loaded = false;
+    let chatBusy = false;
+
+    try {
+        const savedLanguage = localStorage.getItem("qfarm-language");
+        if (savedLanguage === "ml" || savedLanguage === "en") {
+            language = savedLanguage;
+        }
+    } catch (error) {
+        console.warn("Language preference storage is unavailable.");
+    }
+
+    const t = key => translations[language][key] ?? translations.en[key] ?? key;
+
+    function applyLanguage() {
+        document.documentElement.lang = language === "ml" ? "ml" : "en";
+        document.title = language === "ml" ? "എന്റെ കൃഷിയിടം | Q-FARM" : "My Farm | Q-FARM";
+
+        document.querySelectorAll("[data-i18n]").forEach(element => {
+            const key = element.dataset.i18n;
+            if (translations[language][key] !== undefined) {
+                element.textContent = t(key);
+            }
+        });
+
+        document.querySelectorAll("[data-i18n-placeholder]").forEach(element => {
+            element.placeholder = t(element.dataset.i18nPlaceholder);
+        });
+
+        document.querySelectorAll("[data-i18n-aria]").forEach(element => {
+            element.setAttribute("aria-label", t(element.dataset.i18nAria));
+        });
+
+        document.querySelectorAll("[data-i18n-svg]").forEach(element => {
+            element.textContent = t(element.dataset.i18nSvg);
+        });
+
+        languageSwitch.textContent = language === "en" ? t("malayalam") : t("english");
+        languageSwitch.setAttribute(
+            "aria-label",
+            language === "en" ? "മലയാളത്തിലേക്ക് മാറുക" : "Switch to English"
+        );
+
+        renderTasks();
+
+        const selectedZone = document.querySelector("[data-zone].selected-zone");
+        if (selectedZone) selectZone(selectedZone.dataset.zone);
+        else renderWelcomeZone();
+    }
+
+    languageSwitch.addEventListener("click", () => {
+        language = language === "en" ? "ml" : "en";
+
+        try {
+            localStorage.setItem("qfarm-language", language);
+        } catch (error) {
+            console.warn("Could not remember language preference.");
+        }
+
+        applyLanguage();
+    });
+
+    function createMessage(titleText, descriptionText) {
+        const box = document.createElement("div");
+        box.className = "zone-info";
+
+        const title = document.createElement("strong");
+        title.textContent = titleText;
+
+        const description = document.createElement("p");
+        description.textContent = descriptionText;
+
+        box.append(title, description);
+        return box;
+    }
+
+    function renderTasks() {
+        const pending = tasks.filter(task => taskStates[task.key] === null);
+        const completed = tasks.filter(task => taskStates[task.key] === "done").length;
+
+        completedCount.textContent = completed;
+        remainingCount.textContent = pending.length;
+        taskList.replaceChildren();
+        updateVisionLanguage();
+
+        if (!loaded) {
+            taskList.append(createMessage("⏳", t("loading")));
+            return;
+        }
+
+        if (pending.length === 0) {
+            taskList.append(createMessage(t("allCaughtUp"), t("allDone")));
+            return;
+        }
+
+        pending.slice(0, VISIBLE_TASK_LIMIT).forEach(task => {
+            const article = document.createElement("article");
+            article.className = "task";
+            article.dataset.task = task.key;
+
+            const heading = document.createElement("h3");
+            heading.textContent = `${task.icon} ${t(task.title)}`;
+
+            const description = document.createElement("p");
+            description.textContent = t(task.description);
+
+            const actions = document.createElement("div");
+            actions.className = "task-actions";
+
+            const doneButton = document.createElement("button");
+            doneButton.type = "button";
+            doneButton.className = "action";
+            doneButton.textContent = saving ? t("saving") : t("markDone");
+            doneButton.disabled = saving;
+            doneButton.addEventListener("click", () => saveTask(task.key, "done"));
+
+            const skipButton = document.createElement("button");
+            skipButton.type = "button";
+            skipButton.className = "action";
+            skipButton.textContent = t("skip");
+            skipButton.disabled = saving;
+            skipButton.addEventListener("click", () => saveTask(task.key, "skipped"));
+
+            actions.append(doneButton, skipButton);
+            article.append(heading, description, actions);
+            taskList.append(article);
+        });
+
+        if (pending.length > VISIBLE_TASK_LIMIT) {
+            const note = document.createElement("p");
+            note.className = "queue-note";
+            note.textContent = t("moreTasks")(pending.length - VISIBLE_TASK_LIMIT);
+            taskList.append(note);
+        }
+    }
+
+    async function loadTaskHistory() {
+        loaded = false;
+        renderTasks();
+
+        try {
+            const response = await fetch(HISTORY_API, {cache:"no-store"});
+            if (!response.ok) throw new Error("Could not load farm history.");
+
+            const data = await response.json();
+            if (data.status !== "success" || !Array.isArray(data.history)) {
+                throw new Error("Invalid farm history response.");
+            }
+
+            const seen = new Set();
+
+            for (const record of data.history) {
+                if (
+                    Object.hasOwn(taskStates, record.task_key) &&
+                    !seen.has(record.task_key) &&
+                    ["done", "skipped"].includes(record.status)
+                ) {
+                    taskStates[record.task_key] = record.status;
+                    seen.add(record.task_key);
+                }
+            }
+
+            loaded = true;
+            renderTasks();
+            console.log("Q-FARM task history loaded:", data.count);
+        } catch (error) {
+            console.error("Q-FARM history error:", error);
+            taskList.replaceChildren();
+            taskList.append(createMessage(t("loadError"), t("loadErrorText")));
+        }
+    }
+
+    async function saveTask(taskKey, status) {
+        if (
+            saving ||
+            !Object.hasOwn(taskStates, taskKey) ||
+            taskStates[taskKey] !== null ||
+            !["done", "skipped"].includes(status)
+        ) return;
+
+        saving = true;
+        renderTasks();
+
+        try {
+            const response = await fetch(API, {
+                method: "POST",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify({task_key:taskKey, status})
+            });
+
+            const result = await response.json();
+
+            if (!response.ok || result.status !== "success") {
+                throw new Error(result.error || "Could not save farm task.");
+            }
+
+            taskStates[taskKey] = status;
+            console.log("Q-FARM task saved:", taskKey, status);
+        } catch (error) {
+            console.error("Q-FARM save error:", error);
+            alert(t("saveError"));
+        } finally {
+            saving = false;
+            renderTasks();
+        }
+    }
+
+    const zoneContent = {
+        cardamom: {title:"cardamomTitle", text:"cardamomText"},
+        pepper: {title:"pepperTitle", text:"pepperText"},
+        mixed: {title:"mixedTitle", text:"mixedText"}
+    };
+
+    function renderWelcomeZone() {
+        zoneInfo.replaceChildren();
+
+        const title = document.createElement("strong");
+        title.textContent = t("welcomeZone");
+
+        const description = document.createElement("p");
+        description.textContent = t("zonePrompt");
+
+        zoneInfo.append(title, description);
+    }
+
+    function selectZone(zone) {
+        const info = zoneContent[zone];
+        if (!info) return;
+
+        document.querySelectorAll("[data-zone]").forEach(element => {
+            element.classList.toggle("selected-zone", element.dataset.zone === zone);
+        });
+
+        zoneInfo.replaceChildren();
+
+        const title = document.createElement("strong");
+        title.textContent = t(info.title);
+
+        const description = document.createElement("p");
+        description.textContent = t(info.text);
+
+        zoneInfo.append(title, description);
+    }
+
+    document.querySelectorAll("[data-zone]").forEach(zone => {
+        zone.addEventListener("click", () => selectZone(zone.dataset.zone));
+
+        zone.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                selectZone(zone.dataset.zone);
+            }
+        });
+    });
+
+    function addChatMessage(label, message, className) {
+        const article = document.createElement("article");
+        article.className = "chat-message " + className;
+
+        const heading = document.createElement("strong");
+        heading.textContent = label;
+
+        const body = document.createElement("p");
+        body.textContent = message;
+
+        article.append(heading, body);
+        chatMessages.append(article);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    chatForm.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        if (chatBusy) return;
+
+        const question = chatQuestion.value.trim();
+
+        if (!question) {
+            chatStatus.textContent = t("chatEmpty");
+            return;
+        }
+
+        const requestLanguage = language;
+
+        addChatMessage(
+            requestLanguage === "ml" ? "നിങ്ങൾ" : "You",
+            question,
+            "user-message"
+        );
+
+        chatQuestion.value = "";
+        chatBusy = true;
+        chatSend.disabled = true;
+        chatStatus.textContent = t("chatThinking");
+
+        try {
+            const response = await fetch("/api/assistant", {
+                method: "POST",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify({
+                    question: question,
+                    language: requestLanguage
+                })
+            });
+
+            const result = await response.json();
+
+            if (
+                !response.ok ||
+                result.status !== "success" ||
+                typeof result.answer !== "string" ||
+                !result.answer.trim()
+            ) {
+                throw new Error(result.error || "Assistant request failed.");
+            }
+
+            addChatMessage(
+                requestLanguage === "ml" ? "Q-FARM സഹായി" : "Q-FARM Assistant",
+                result.answer,
+                "assistant-message"
+            );
+
+            chatStatus.textContent = "";
+        } catch (error) {
+            console.error("Q-FARM assistant error:", error);
+            chatStatus.textContent = t("chatError");
+        } finally {
+            chatBusy = false;
+            chatSend.disabled = false;
+            chatQuestion.focus();
+        }
+    });
+
+
+
+    // Q-FARM crop image recognition
+    const visionForm = document.getElementById("visionForm");
+    const visionCrop = document.getElementById("visionCrop");
+    const visionImage = document.getElementById("visionImage");
+    const visionPreview = document.getElementById("visionPreview");
+    const visionSubmit = document.getElementById("visionSubmit");
+    const visionStatus = document.getElementById("visionStatus");
+    const visionResult = document.getElementById("visionResult");
+    const visionResultTitle = document.getElementById("visionResultTitle");
+    const visionResultText = document.getElementById("visionResultText");
+
+    let visionBusy = false;
+    let previewUrl = null;
+
+    function updateVisionLanguage() {
+        const ml = language === "ml";
+
+        document.getElementById("visionTitle").textContent =
+            ml ? "വിളയുടെ ചിത്രം പരിശോധിക്കുക" : "Crop Image Recognition";
+
+        document.getElementById("visionDescription").textContent =
+            ml
+                ? "ഏലക്കയുടെയോ കുരുമുളകിന്റെയോ ചെടിയുടെ ചിത്രം അപ്‌ലോഡ് ചെയ്യുക."
+                : "Upload a photograph of your cardamom or black pepper plant for AI-assisted visual observations.";
+
+        document.getElementById("visionCropLabel").textContent =
+            ml ? "വിള തിരഞ്ഞെടുക്കുക" : "Select your crop";
+
+        document.getElementById("visionImageLabel").textContent =
+            ml ? "ചെടിയുടെ ചിത്രം തിരഞ്ഞെടുക്കുക" : "Choose a plant image";
+
+        visionSubmit.textContent = visionBusy
+            ? (ml ? "ചിത്രം പരിശോധിക്കുന്നു..." : "Analyzing image...")
+            : (ml ? "🔍 ചിത്രം പരിശോധിക്കുക" : "🔍 Analyze Crop Image");
+
+        document.getElementById("visionDisclaimer").textContent =
+            ml
+                ? "AI നിരീക്ഷണങ്ങൾ സ്ഥിരീകരിച്ച രോഗനിർണയമല്ല. ആവശ്യമെങ്കിൽ കൃഷി ഉദ്യോഗസ്ഥനെയോ കൃഷിഭവനെയോ സമീപിക്കുക."
+                : "AI observations are not a confirmed diagnosis. Consult a qualified agricultural officer or Krishi Bhavan when necessary.";
+
+        visionResultTitle.textContent =
+            ml ? "ചിത്രത്തിന്റെ വിശകലനം" : "Image analysis";
+    }
+
+    visionImage.addEventListener("change", () => {
+        const file = visionImage.files[0];
+
+        visionStatus.textContent = "";
+        visionResult.hidden = true;
+        visionResultText.textContent = "";
+
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            previewUrl = null;
+        }
+
+        visionPreview.removeAttribute("src");
+        visionPreview.style.display = "none";
+
+        if (!file) return;
+
+        const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ];
+
+        if (!allowedTypes.includes(file.type)) {
+            visionImage.value = "";
+            visionStatus.textContent = language === "ml"
+                ? "JPG, PNG അല്ലെങ്കിൽ WEBP ചിത്രം തിരഞ്ഞെടുക്കുക."
+                : "Please choose a JPG, PNG, or WEBP image.";
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            visionImage.value = "";
+            visionStatus.textContent = language === "ml"
+                ? "ചിത്രത്തിന്റെ വലുപ്പം 5 MB-ൽ താഴെയായിരിക്കണം."
+                : "The image must be 5 MB or smaller.";
+            return;
+        }
+
+        previewUrl = URL.createObjectURL(file);
+        visionPreview.src = previewUrl;
+        visionPreview.style.display = "block";
+    });
+
+    visionForm.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        if (visionBusy) return;
+
+        const file = visionImage.files[0];
+
+        if (!file) {
+            visionStatus.textContent = language === "ml"
+                ? "ആദ്യം ഒരു ചിത്രം തിരഞ്ഞെടുക്കുക."
+                : "Please choose an image first.";
+            return;
+        }
+
+        const requestLanguage = language;
+
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("crop_id", visionCrop.value);
+        formData.append("language", requestLanguage);
+
+        visionBusy = true;
+        visionSubmit.disabled = true;
+        visionStatus.textContent = requestLanguage === "ml"
+            ? "🌱 ചിത്രം പരിശോധിക്കുന്നു... ദയവായി കാത്തിരിക്കുക."
+            : "🌱 Analyzing image... Please wait.";
+
+        visionResult.hidden = true;
+        updateVisionLanguage();
+
+        try {
+            const response = await fetch("/api/recognize-image", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (
+                !response.ok ||
+                result.status !== "success" ||
+                typeof result.answer !== "string" ||
+                !result.answer.trim()
+            ) {
+                throw new Error(
+                    result.error || "Image recognition failed."
+                );
+            }
+
+            visionResultText.textContent = result.answer;
+            visionResult.hidden = false;
+
+            visionStatus.textContent = requestLanguage === "ml"
+                ? "✅ പരിശോധന പൂർത്തിയായി."
+                : "✅ Image analysis completed.";
+
+        } catch (error) {
+            console.error("Q-FARM image recognition error:", error);
+
+            visionStatus.textContent = requestLanguage === "ml"
+                ? "ചിത്രം പരിശോധിക്കാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷനും സർവറും പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക."
+                : (
+                    error.message === "Failed to fetch"
+                        ? "Could not reach Q-FARM. Check that the server is running."
+                        : error.message
+                );
+        } finally {
+            visionBusy = false;
+            visionSubmit.disabled = false;
+            updateVisionLanguage();
+        }
+    });
+
+    // Release the temporary preview when the page is closed.
+    window.addEventListener("pagehide", () => {
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
+    });
+
+    applyLanguage();
+    loadTaskHistory();
+
+    console.log("Q-FARM bilingual dashboard and AI assistant initialized 🌱");
+})();
+</script>
+</body>
+</html>

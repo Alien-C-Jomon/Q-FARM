@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#143d2b">
+<title>Q-FARM | Smart Agriculture</title>
+<style>
+:root {
+  --green:#174b32; --green2:#246b45; --lime:#d9f99d;
+  --bg:#f4f7f1; --card:#fff; --text:#183526; --muted:#718075;
+  --border:#e4ebe2; --radius:22px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+ font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{max-width:1100px;margin:auto;padding:20px 22px 105px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{width:45px;height:45px;border-radius:15px;background:var(--green);
+ color:white;display:grid;place-items:center;font-size:25px}
+.brand h1{font-size:21px;margin:0;letter-spacing:-.8px}
+.brand small{font-size:11px;color:var(--muted);letter-spacing:1.6px}
+.lang{border:1px solid var(--border);background:white;padding:10px 14px;border-radius:13px;color:var(--green);font-weight:700}
+.hero{background:linear-gradient(125deg,#143d2b,#28734a);color:white;
+ border-radius:28px;padding:28px;position:relative;overflow:hidden}
+.hero:after{content:"🌿";position:absolute;right:20px;bottom:-20px;font-size:125px;opacity:.14}
+.eyebrow{font-size:11px;letter-spacing:2px;font-weight:800;color:#c9f2ad}
+.hero h2{font-size:clamp(27px,5vw,43px);line-height:1.12;letter-spacing:-1.5px;
+ max-width:500px;margin:15px 0 10px}
+.hero p{color:#dcebe0;line-height:1.65;max-width:470px;font-size:14px}
+.pill{display:inline-block;background:#ffffff20;border:1px solid #ffffff35;
+ border-radius:30px;padding:7px 11px;font-size:11px;font-weight:700}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.btn{border:0;border-radius:13px;padding:13px 17px;font-weight:750}
+.btn-light{background:var(--lime);color:#173c29}
+.btn-outline{background:#ffffff15;color:white;border:1px solid #ffffff55}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:29px 0 14px}
+.section-head h3{font-size:19px;margin:0;letter-spacing:-.5px}
+.section-head span{font-size:12px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:17px}
+.stat,.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius)}
+.stat{padding:17px}
+.stat-icon{font-size:21px}
+.stat strong{display:block;font-size:25px;margin:12px 0 4px;letter-spacing:-1px}
+.stat small{color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{padding:19px}
+.crop-icon{height:90px;border-radius:17px;background:#edf5e8;display:grid;place-items:center;font-size:53px}
+.card h4{margin:14px 0 5px;font-size:17px}
+.card p{font-size:13px;color:var(--muted);line-height:1.6;margin:7px 0 13px}
+.tag{display:inline-block;border-radius:8px;background:#edf6e9;color:#27633c;padding:6px 9px;font-size:11px;font-weight:750}
+.card .btn{width:100%;margin-top:14px;background:#eaf3e7;color:var(--green)}
+.vision{background:#fff;border:1px dashed #a9c6a9;border-radius:22px;padding:22px;text-align:center}
+.vision-icon{font-size:38px}
+.vision h4{margin:9px 0}
+.vision p{color:var(--muted);font-size:13px;line-height:1.6}
+.upload{display:inline-block;background:var(--green);color:white;border-radius:13px;padding:13px 17px;font-weight:750;cursor:pointer;margin-top:8px}
+#photo{display:none}
+#preview{display:none;max-width:100%;max-height:230px;border-radius:15px;margin:16px auto 0}
+.result{display:none;text-align:left;background:#f0f7ed;border-radius:15px;padding:15px;margin-top:16px;font-size:13px;line-height:1.7}
+.disclaimer{font-size:11px;color:#7b6a36;margin-top:10px}
+.tasks{display:grid;gap:10px}
+.task{display:flex;align-items:center;gap:12px;padding:15px;background:white;border:1px solid var(--border);border-radius:15px}
+.task input{width:19px;height:19px;accent-color:var(--green)}
+.task label{flex:1;font-size:13px;font-weight:650}
+.task small{display:block;color:var(--muted);font-weight:400;margin-top:4px}
+.task.done label{text-decoration:line-through;color:#829087}
+.progress{height:7px;background:#e6ede3;border-radius:9px;margin:13px 0 20px;overflow:hidden}
+.progress div{height:100%;background:#5b9a56;width:0%;transition:width .2s}
+.tip{background:#eaf3e7;border-radius:18px;padding:18px;display:flex;gap:13px;line-height:1.6;font-size:13px;margin-top:15px}
+.tip span{font-size:26px}
+footer{text-align:center;color:var(--muted);font-size:11px;margin:30px 0 10px;line-height:1.8}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:5;background:#ffffffed;
+ backdrop-filter:blur(15px);border-top:1px solid var(--border)}
+.nav-inner{max-width:700px;margin:auto;display:flex;justify-content:space-around;padding:10px 6px max(10px,env(safe-area-inset-bottom))}
+.nav-btn{border:0;background:none;color:#859287;font-size:10px;font-weight:700;padding:6px 14px;border-radius:13px}
+.nav-btn span{display:block;font-size:21px;margin-bottom:4px}
+.nav-btn.active{background:#eaf3e7;color:var(--green)}
+.page{display:none}.page.active{display:block}
+.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#173d2b;color:white;
+ padding:12px 18px;border-radius:13px;z-index:10;display:none;font-size:13px;box-shadow:0 5px 25px #0002}
+@media(min-width:760px){.app{padding-top:30px}.hero{padding:40px}.crop-icon{height:115px}.vision{padding:35px}}
+@media(max-width:520px){.app{padding:15px 14px 100px}.hero{padding:23px}.hero:after{font-size:85px;right:5px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}.stat small{font-size:10px}.grid{gap:10px}.card{padding:12px}.crop-icon{height:75px;font-size:43px}.card h4{font-size:15px}.nav-btn{padding:6px 12px}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="app">
+<header>
+ <div class="brand"><div class="logo">🌱</div><div><h1>Q-FARM</h1><small>SMART AGRICULTURE</small></div></div>
+ <button class="lang" id="langBtn" onclick="toggleLanguage()">മലയാളം ↗</button>
+</header>
+
+<main>
+<section class="page active" id="home">
+ <div class="hero">
+  <span class="pill" data-en="✦ YOUR FARM, REIMAGINED" data-ml="✦ നിങ്ങളുടെ കൃഷി, പുതിയ കാഴ്ചപ്പാട്">✦ YOUR FARM, REIMAGINED</span>
+  <h2 data-en="Grow smarter.<br>Harvest better." data-ml="ബുദ്ധിപൂർവ്വം കൃഷി ചെയ്യൂ.<br>നല്ല വിളവ് നേടൂ.">Grow smarter.<br>Harvest better.</h2>
+  <p data-en="A simple digital companion for farmers — crop insights, farm planning and helpful agricultural guidance in one place." data-ml="കർഷകർക്കായുള്ള ഡിജിറ്റൽ സഹായി — വിള വിവരങ്ങൾ, കൃഷി ആസൂത്രണം, പ്രയോജനകരമായ നിർദേശങ്ങൾ ഒരിടത്ത്.">A simple digital companion for farmers — crop insights, farm planning and helpful agricultural guidance in one place.</p>
+  <div class="hero-actions">
+   <button class="btn btn-light" onclick="showPage('vision')" data-en="Explore Crop Vision →" data-ml="വിള പരിശോധന കാണൂ →">Explore Crop Vision →</button>
+   <button class="btn btn-outline" onclick="showPage('tasks')" data-en="View farm tasks" data-ml="കൃഷി ജോലികൾ">View farm tasks</button>
+  </div>
+ </div>
+
+ <div class="stats">
+  <div class="stat"><span class="stat-icon">🌿</span><strong>02</strong><small data-en="Crop profiles" data-ml="വിള പ്രൊഫൈലുകൾ">Crop profiles</small></div>
+  <div class="stat"><span class="stat-icon">☑️</span><strong id="taskCount">0/3</strong><small data-en="Tasks completed" data-ml="പൂർത്തിയായ ജോലികൾ">Tasks completed</small></div>
+  <div class="stat"><span class="stat-icon">🌦️</span><strong>Demo</strong><small data-en="Farm insights" data-ml="കൃഷി വിവരങ്ങൾ">Farm insights</small></div>
+ </div>
+
+ <div class="section-head"><h3 data-en="Your crop library" data-ml="നിങ്ങളുടെ വിളകൾ">Your crop library</h3><span data-en="Explore crops ↘" data-ml="വിളകൾ കാണൂ ↘">Explore crops ↘</span></div>
+ <div class="grid">
+  <article class="card"><div class="crop-icon">🌿</div><h4 data-en="Cardamom" data-ml="ഏലം">Cardamom</h4><span class="tag" data-en="SPICE CROP" data-ml="സുഗന്ധവിള">SPICE CROP</span><p data-en="Shade-loving crop. Monitor soil moisture and drainage." data-ml="തണൽ ഇഷ്ടപ്പെടുന്ന വിള. മണ്ണിലെ ഈർപ്പവും നീർവാർച്ചയും ശ്രദ്ധിക്കുക.">Shade-loving crop. Monitor soil moisture and drainage.</p><button class="btn" onclick="cropDetails('Cardamom')">Explore →</button></article>
+  <article class="card"><div class="crop-icon">🍃</div><h4 data-en="Black pepper" data-ml="കുരുമുളക്">Black pepper</h4><span class="tag" data-en="CLIMBING SPICE" data-ml="പടർന്നു വളരുന്ന സുഗന്ധവിള">CLIMBING SPICE</span><p data-en="A climbing vine that needs support and well-drained soil." data-ml="താങ്ങും നല്ല നീർവാർച്ചയുള്ള മണ്ണും ആവശ്യമുള്ള വള്ളി.">A climbing vine that needs support and well-drained soil.</p><button class="btn" onclick="cropDetails('Black pepper')">Explore →</button></article>
+ </div>
+ <div class="tip"><span>💡</span><div><b data-en="Farm insight" data-ml="കൃഷി നിർദേശം">Farm insight</b><br><span data-en="Check soil moisture before watering. Avoid waterlogging around spice crop roots." data-ml="നനയ്ക്കുന്നതിന് മുമ്പ് മണ്ണിലെ ഈർപ്പം പരിശോധിക്കുക. സുഗന്ധവിളകളുടെ വേരുകളിൽ വെള്ളം കെട്ടിനിൽക്കുന്നത് ഒഴിവാക്കുക.">Check soil moisture before watering. Avoid waterlogging around spice crop roots.</span></div></div>
+</section>
+
+<section class="page" id="crops">
+ <div class="section-head"><h3 data-en="Crop library" data-ml="വിള വിവരങ്ങൾ">Crop library</h3><span>02 crops</span></div>
+ <div class="grid">
+  <article class="card"><div class="crop-icon">🌿</div><h4 data-en="Cardamom" data-ml="ഏലം">Cardamom</h4><p data-en="Prefers a humid environment, shade and moist but well-drained soil. Check for leaf damage and maintain field drainage." data-ml="ഈർപ്പമുള്ള കാലാവസ്ഥയും തണലും നല്ല നീർവാർച്ചയുള്ള മണ്ണും ഇഷ്ടപ്പെടുന്നു. ഇലകളിലെ കേടുപാടുകൾ ശ്രദ്ധിക്കുക.">Prefers a humid environment, shade and moist but well-drained soil. Check for leaf damage and maintain field drainage.</p><span class="tag">Elettaria cardamomum</span></article>
+  <article class="card"><div class="crop-icon">🍃</div><h4 data-en="Black pepper" data-ml="കുരുമുളക്">Black pepper</h4><p data-en="A perennial climbing vine. Provide suitable support, organic matter and good drainage. Inspect vines regularly." data-ml="പടർന്നു വളരുന്ന വറ്റാത്ത വള്ളി. താങ്ങും ജൈവവളവും നല്ല നീർവാർച്ചയും നൽകുക.">A perennial climbing vine. Provide suitable support, organic matter and good drainage. Inspect vines regularly.</p><span class="tag">Piper nigrum</span></article>
+ </div>
+ <div class="tip"><span>🌱</span><div><b data-en="Remember" data-ml="ഓർക്കുക">Remember</b><br><span data-en="These are general crop notes for demonstration. Local soil, weather and expert advice matter." data-ml="ഇവ മാതൃകയ്ക്കുള്ള പൊതുവായ വിവരങ്ങളാണ്. പ്രാദേശിക മണ്ണും കാലാവസ്ഥയും വിദഗ്ധ നിർദേശങ്ങളും പ്രധാനമാണ്.">These are general crop notes for demonstration. Local soil, weather and expert advice matter.</span></div></div>
+</section>
+
+<section class="page" id="vision">
+ <div class="section-head"><h3 data-en="Crop Vision" data-ml="വിള നിരീക്ഷണം">Crop Vision</h3><span class="tag">DEMO MODE</span></div>
+ <div class="vision">
+  <div class="vision-icon">📷</div>
+  <h4 data-en="Explore image recognition" data-ml="ചിത്ര പരിശോധന കാണൂ">Explore image recognition</h4>
+  <p data-en="Choose a crop photo to preview it. Then try the illustrative demo result." data-ml="ഒരു വിളയുടെ ചിത്രം തിരഞ്ഞെടുക്കൂ. തുടർന്ന് മാതൃകാ ഫലം കാണാം.">Choose a crop photo to preview it. Then try the illustrative demo result.</p>
+  <label class="upload" for="photo" data-en="＋ Choose crop photo" data-ml="＋ വിളയുടെ ചിത്രം തിരഞ്ഞെടുക്കുക">＋ Choose crop photo</label>
+  <input type="file" id="photo" accept="image/*">
+  <img id="preview" alt="Selected crop preview">
+  <div><button class="btn btn-light" style="margin-top:14px;background:#d9f99d" onclick="demoAnalysis()" data-en="Show sample result" data-ml="മാതൃകാ ഫലം കാണുക">Show sample result</button></div>
+  <div class="result" id="result"><b data-en="Illustrative sample result" data-ml="ഉദാഹരണ ഫലം">Illustrative sample result</b><br><span data-en="Observation: Leaf condition should be checked for discoloration or spots." data-ml="നിരീക്ഷണം: ഇലകളിലെ നിറവ്യത്യാസവും പാടുകളും പരിശോധിക്കുക.">Observation: Leaf condition should be checked for discoloration or spots.</span><br><span data-en="Suggested next step: Inspect several leaves and consult a local agricultural officer if symptoms persist." data-ml="അടുത്ത നടപടി: കൂടുതൽ ഇലകൾ പരിശോധിക്കുക. പ്രശ്നം തുടരുകയാണെങ്കിൽ കൃഷി ഓഫീസറുടെ സഹായം തേടുക.">Suggested next step: Inspect several leaves and consult a local agricultural officer if symptoms persist.</span></div>
+  <div class="disclaimer" data-en="⚠ Presentation simulation only. No actual AI analysis or disease diagnosis is performed." data-ml="⚠ അവതരണ മാതൃക മാത്രം. യഥാർത്ഥ AI പരിശോധനയോ രോഗനിർണയമോ നടക്കുന്നില്ല.">⚠ Presentation simulation only. No actual AI analysis or disease diagnosis is performed.</div>
+ </div>
+</section>
+
+<section class="page" id="tasks">
+ <div class="section-head"><h3 data-en="Farm tasks" data-ml="കൃഷി ജോലികൾ">Farm tasks</h3><span data-en="Interactive checklist" data-ml="ചെയ്യേണ്ട കാര്യങ്ങൾ">Interactive checklist</span></div>
+ <div class="card" style="margin-bottom:14px"><b data-en="Today's progress" data-ml="ഇന്നത്തെ പുരോഗതി">Today's progress</b><div class="progress"><div id="progressBar"></div></div><small id="progressText">0 of 3 completed</small></div>
+ <div class="tasks">
+  <div class="task"><input type="checkbox" id="t1" onchange="updateTasks()"><label for="t1" data-en="Check soil moisture" data-ml="മണ്ണിലെ ഈർപ്പം പരിശോധിക്കുക">Check soil moisture<small data-en="Before watering your crops" data-ml="നനയ്ക്കുന്നതിന് മുമ്പ്">Before watering your crops</small></label>💧</div>
+  <div class="task"><input type="checkbox" id="t2" onchange="updateTasks()"><label for="t2" data-en="Inspect crop leaves" data-ml="വിളകളുടെ ഇലകൾ പരിശോധിക്കുക">Inspect crop leaves<small data-en="Look for spots or unusual changes" data-ml="പാടുകളോ അസാധാരണ മാറ്റങ്ങളോ നോക്കുക">Look for spots or unusual changes</small></label>🍃</div>
+  <div class="task"><input type="checkbox" id="t3" onchange="updateTasks()"><label for="t3" data-en="Check field drainage" data-ml="വയലിലെ നീർവാർച്ച പരിശോധിക്കുക">Check field drainage<small data-en="Especially after rainfall" data-ml="മഴയ്ക്ക് ശേഷം പ്രത്യേകം ശ്രദ്ധിക്കുക">Especially after rainfall</small></label>🌧️</div>
+ </div>
+ <div class="tip"><span>📋</span><div><b data-en="Planning ahead" data-ml="മുൻകൂട്ടിയുള്ള ആസൂത്രണം">Planning ahead</b><br><span data-en="These are sample tasks. Real schedules should depend on crop stage, field conditions and local agricultural advice." data-ml="ഇവ മാതൃകാ ജോലികളാണ്. യഥാർത്ഥ സമയക്രമം വിളയുടെ വളർച്ചയും വയലിലെ സാഹചര്യവും അനുസരിച്ചാകണം.">These are sample tasks. Real schedules should depend on crop stage, field conditions and local agricultural advice.</span></div></div>
+</section>
+</main>
+<footer>Q-FARM · SMART AGRICULTURE<br>Presentation prototype · Sample data · No live AI services</footer>
+</div>
+
+<nav><div class="nav-inner">
+ <button class="nav-btn active" data-page="home" onclick="showPage('home')"><span>⌂</span><i data-en="Home" data-ml="ഹോം">Home</i></button>
+ <button class="nav-btn" data-page="crops" onclick="showPage('crops')"><span>🌿</span><i data-en="Crops" data-ml="വിളകൾ">Crops</i></button>
+ <button class="nav-btn" data-page="vision" onclick="showPage('vision')"><span>📷</span><i data-en="Vision" data-ml="പരിശോധന">Vision</i></button>
+ <button class="nav-btn" data-page="tasks" onclick="showPage('tasks')"><span>☑</span><i data-en="Tasks" data-ml="ജോലികൾ">Tasks</i></button>
+</div></nav>
+
+<script>
+let language = "en";
+const $ = id => document.getElementById(id);
+
+function showPage(name) {
+ document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+ $(name).classList.add("active");
+ document.querySelectorAll(".nav-btn").forEach(b => b.classList.toggle("active",b.dataset.page===name));
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function toggleLanguage() {
+ language = language==="en" ? "ml" : "en";
+ document.documentElement.lang = language;
+ document.querySelectorAll("[data-en]").forEach(el => {
+  el.innerHTML = el.dataset[language];
+ });
+ $("langBtn").textContent = language==="en" ? "മലയാളം ↗" : "English ↗";
+}
+function updateTasks() {
+ const checks = [...document.querySelectorAll(".task input")];
+ const done = checks.filter(c=>c.checked).length;
+ checks.forEach(c=>c.closest(".task").classList.toggle("done",c.checked));
+ $("taskCount").textContent = done+"/3";
+ $("progressBar").style.width = (done/checks.length*100)+"%";
+ $("progressText").textContent = language==="en" ? `${done} of 3 completed` : `${3} ജോലികളിൽ ${done} പൂർത്തിയായി`;
+}
+$("photo").addEventListener("change", function() {
+ const file = this.files && this.files[0];
+ if (!file) return;
+ if (!file.type.startsWith("image/")) { notify("Please choose an image."); return; }
+ const reader = new FileReader();
+ reader.onload = e => {
+  $("preview").src = e.target.result;
+  $("preview").style.display = "block";
+  $("result").style.display = "none";
+ };
+ reader.readAsDataURL(file);
+});
+function demoAnalysis() {
+ $("result").style.display = "block";
+}
+function cropDetails(crop) {
+ notify(language==="en" ? crop+" profile is available in the crop library." : crop+" വിവരങ്ങൾ വിള വിഭാഗത്തിലുണ്ട്.");
+}
+function notify(message) {
+ $("toast").textContent = message;
+ $("toast").style.display = "block";
+ setTimeout(()=>$("toast").style.display="none",2200);
+}
+updateTasks();
+</script>
+</body>
+</html>

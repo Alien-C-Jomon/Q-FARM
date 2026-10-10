@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f8ee">
+
+    <title>Q-FARM — A Little Smarter, A Little Greener</title>
+
+    <meta name="description"
+          content="Q-FARM is an experimental AI and quantum-inspired agricultural decision-support project for smarter farming.">
+
+    <link rel="stylesheet" href="/ui/styles.css">
+    <script src="/ui/app.js" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="brand" href="/" aria-label="Q-FARM home">
+            <span class="brand-mark">q.</span>
+            <span>Q-FARM<span class="brand-dot">.</span></span>
+        </a>
+
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="#story">Our idea</a>
+            <a href="#technology">Technology</a>
+            <a href="#farm-preview">The farm</a>
+        </nav>
+
+        <a class="header-link" href="#farm-preview">
+            Explore <span aria-hidden="true">↗</span>
+        </a>
+    </header>
+
+    <main>
+        <section class="hero" id="story">
+            <div class="hero-copy">
+                <div class="eyebrow">
+                    <span class="status-dot"></span>
+                    GROWING IDEAS INTO REALITY
+                </div>
+
+                <h1>
+                    A little smarter.<br>
+                    <span class="title-green">A little greener.</span>
+                </h1>
+
+                <p class="hero-description">
+                    What if your farm could remember, learn and help you
+                    plan the next step? Meet Q-FARM, an experimental
+                    agricultural assistant built around the needs of
+                    real farmers.
+                </p>
+
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#farm-preview">
+                        Meet your farm <span aria-hidden="true">↗</span>
+                    </a>
+
+                    <a class="text-link" href="#technology">
+                        Discover the idea <span aria-hidden="true">↓</span>
+                    </a>
+                </div>
+
+                <div class="hero-note">
+                    <span class="note-icon">✳</span>
+                    Made for the fields. Designed for tomorrow.
+                </div>
+            </div>
+
+            <div class="hero-art" aria-label="Illustrated botanical garden">
+                <div class="art-orbit orbit-one"></div>
+                <div class="art-orbit orbit-two"></div>
+
+                <div class="sun-disc"></div>
+
+                <div class="floating-label label-top">
+                    <span>✳</span> Nature meets intelligence
+                </div>
+
+                <svg class="hero-plant" viewBox="0 0 420 500"
+                     role="img" aria-label="Decorative green botanical plant">
+                    <defs>
+                        <linearGradient id="leafGreen" x1="0" y1="0"
+                                        x2="1" y2="1">
+                            <stop offset="0%" stop-color="#a6c987"/>
+                            <stop offset="100%" stop-color="#477b52"/>
+                        </linearGradient>
+                        <linearGradient id="leafLight" x1="0" y1="0"
+                                        x2="1" y2="1">
+                            <stop offset="0%" stop-color="#d0e5a9"/>
+                            <stop offset="100%" stop-color="#79a967"/>
+                        </linearGradient>
+                    </defs>
+
+                    <path d="M207 475 C205 380 220 280 200 170
+                             C194 130 183 95 168 65"
+                          fill="none" stroke="#476e48" stroke-width="6"
+                          stroke-linecap="round"/>
+
+                    <path d="M209 425 C160 360 117 329 78 304"
+                          fill="none" stroke="#476e48" stroke-width="4"
+                          stroke-linecap="round"/>
+
+                    <path d="M211 354 C260 308 293 276 321 238"
+                          fill="none" stroke="#476e48" stroke-width="4"
+                          stroke-linecap="round"/>
+
+                    <path d="M203 275 C151 240 118 209 102 169"
+                          fill="none" stroke="#476e48" stroke-width="4"
+                          stroke-linecap="round"/>
+
+                    <path d="M201 215 C249 183 269 153 277 116"
+                          fill="none" stroke="#476e48" stroke-width="4"
+                          stroke-linecap="round"/>
+
+                    <path d="M168 65
+                             C101 21 65 53 75 99
+                             C84 134 140 127 168 65Z"
+                          fill="url(#leafLight)"/>
+
+                    <path d="M168 65 L88 78"
+                          stroke="#608b55" stroke-width="2" fill="none"/>
+
+                    <path d="M103 170
+                             C40 124 15 162 38 205
+                             C54 235 92 215 103 170Z"
+                          fill="url(#leafGreen)"/>
+
+                    <path d="M103 170 L48 192"
+                          stroke="#d0e5a9" stroke-width="2" fill="none"/>
+
+                    <path d="M78 304
+                             C13 284 2 324 36 355
+                             C62 378 89 345 78 304Z"
+                          fill="url(#leafLight)"/>
+
+                    <path d="M78 304 L36 339"
+                          stroke="#608b55" stroke-width="2" fill="none"/>
+
+                    <path d="M277 116
+                             C280 49 327 35 350 67
+                             C367 94 323 123 277 116Z"
+                          fill="url(#leafGreen)"/>
+
+                    <path d="M277 116 L338 73"
+                          stroke="#c4dfa3" stroke-width="2" fill="none"/>
+
+                    <path d="M321 238
+                             C349 174 393 184 396 221
+                             C398 253 357 264 321 238Z"
+                          fill="url(#leafLight)"/>
+
+                    <path d="M321 238 L380 222"
+                          stroke="#608b55" stroke-width="2" fill="none"/>
+
+                    <path d="M207 425
+                             C258 371 300 387 288 422
+                             C278 452 240 449 207 425Z"
+                          fill="url(#leafGreen)"/>
+
+                    <path d="M207 425 L277 416"
+                          stroke="#c4dfa3" stroke-width="2" fill="none"/>
+
+                    <circle cx="169" cy="65" r="8" fill="#f1cc75"/>
+                    <circle cx="102" cy="170" r="6" fill="#f1cc75"/>
+                    <circle cx="321" cy="238" r="6" fill="#f1cc75"/>
+                </svg>
+
+                <div class="floating-label label-bottom">
+                    <span class="tiny-leaf">✿</span>
+                    A living idea, growing with you
+                </div>
+
+                <div class="art-caption">
+                    <span>01 / 03</span>
+                    <span>GROW WITH CARE</span>
+                </div>
+            </div>
+
+            <div class="hero-bottom">
+                <span>AN EXPERIMENT IN SMARTER FARMING</span>
+                <a href="#technology" aria-label="Scroll to technology">
+                    Scroll to explore <span aria-hidden="true">↓</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="intro-section section-pad" id="technology">
+            <div class="section-kicker">01 — THE IDEA</div>
+
+            <div class="intro-grid">
+                <h2>
+                    Farming has a story.<br>
+                    Let's help it <span class="title-green">grow.</span>
+                </h2>
+
+                <div class="intro-copy">
+                    <p>
+                        A farmer makes hundreds of little decisions:
+                        when to water, what to observe, which tasks
+                        need attention and what happened last time.
+                    </p>
+                    <p>
+                        Q-FARM explores how a digital farm model,
+                        agricultural references and AI assistance
+                        could bring those decisions into one place.
+                    </p>
+                </div>
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card feature-sage">
+                    <div class="feature-icon">🌱</div>
+                    <div class="feature-number">01</div>
+                    <h3>A farm that remembers</h3>
+                    <p>
+                        Keep track of farm activities, skipped tasks
+                        and observations across visits.
+                    </p>
+                </article>
+
+                <article class="feature-card feature-yellow">
+                    <div class="feature-icon">✳</div>
+                    <div class="feature-number">02</div>
+                    <h3>AI with context</h3>
+                    <p>
+                        Explore questions in English or Malayalam
+                        using available crop information and evidence.
+                    </p>
+                </article>
+
+                <article class="feature-card feature-lilac">
+                    <div class="feature-icon">⚛</div>
+                    <div class="feature-number">03</div>
+                    <h3>Quantum-inspired ideas</h3>
+                    <p>
+                        Experiment with optimization concepts for
+                        planning. Quantum benefits are not assumed.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <section class="quantum-section section-pad">
+            <div class="quantum-art">
+                <div class="quantum-ring ring-a"></div>
+                <div class="quantum-ring ring-b"></div>
+                <div class="quantum-center">q</div>
+                <span class="quantum-star star-a">✳</span>
+                <span class="quantum-star star-b">✦</span>
+                <span class="quantum-star star-c">·</span>
+            </div>
+
+            <div class="quantum-copy">
+                <div class="section-kicker">02 — BEYOND THE ORDINARY</div>
+                <h2>
+                    A little bit of<br>
+                    <span class="title-green">quantum curiosity.</span>
+                </h2>
+                <p>
+                    Q-FARM includes an experimental quantum-inspired
+                    direction: exploring how computational approaches
+                    might eventually support complex farm-planning
+                    problems.
+                </p>
+                <p class="small-note">
+                    This is a research prototype, not a claim that
+                    quantum computing currently improves farm yields.
+                </p>
+            </div>
+        </section>
+
+        <section class="farm-cta section-pad" id="farm-preview">
+            <div class="cta-decoration">✿</div>
+
+            <div class="section-kicker">03 — YOUR FARM AWAITS</div>
+
+            <h2>
+                From a little idea<br>
+                to <span class="title-green">your own farm.</span>
+            </h2>
+
+            <p>
+                Explore a digital plot, see crop zones, record
+                activities and discover what a more connected
+                farming experience could look like.
+            </p>
+
+            <a class="button button-primary button-large" href="/farm">
+                Enter My Farm <span aria-hidden="true">↗</span>
+            </a>
+
+            <div class="cta-footnote">
+                <span>🌿</span>
+                Q-FARM · An experimental agricultural prototype
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <a class="brand footer-brand" href="/">
+            <span class="brand-mark">q.</span>
+            <span>Q-FARM<span class="brand-dot">.</span></span>
+        </a>
+
+        <span>Thoughtfully grown, one step at a time.</span>
+        <a href="#story">Back to the top ↑</a>
+    </footer>
+</body>
+</html>
