@@ -92,6 +92,86 @@ Create a local environment file using the project's expected configuration.
 
 Follow the startup instructions for the current backend entry point and frontend. The exact command depends on the repository's current configuration.
 
+
+## 🔐 Gemini API Key Setup
+
+Q-FARM uses the **Google Gemini API** for AI-powered assistance and image analysis.
+
+For security, **no API key is included in this repository**. Each user must provide their own Gemini API key locally.
+
+### 1. Get your Gemini API key
+
+Create a Gemini API key through **Google AI Studio**.
+
+> **Never commit your API key to GitHub or share it publicly.**
+
+### 2. Create the environment file
+
+After cloning Q-FARM, open:
+
+```text
+backend\.env
+```
+
+If the file does not exist, create it inside the `backend` folder.
+
+Add:
+
+```env
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
+```
+
+Replace `YOUR_GEMINI_API_KEY_HERE` with your own key.
+
+Example:
+
+```env
+GEMINI_API_KEY=your_key_here
+```
+
+### 3. Keep the key private
+
+The `.env` file is intended for **local configuration only** and should not be committed to GitHub.
+
+Make sure your `.gitignore` contains:
+
+```gitignore
+.env
+.env.*
+```
+
+### 4. Restart Q-FARM
+
+After adding or changing the API key, restart the Q-FARM backend so the new environment variable is loaded.
+
+### ⚠️ Security Warning
+
+Do **not**:
+
+- Put your API key directly into Python source code.
+- Commit `backend\.env` to GitHub.
+- Paste your API key into README files, screenshots, issues, or public discussions.
+- Share your API key with other people.
+
+If a key is accidentally exposed, **revoke/rotate it immediately** and create a replacement key.
+
+### 🧪 Verify Your Configuration
+
+You can safely check whether the environment variable is available without printing the secret:
+
+```cmd
+cd /d "Q-FARM"
+if defined GEMINI_API_KEY (echo GEMINI_API_KEY=FOUND) else (echo GEMINI_API_KEY=NOT_FOUND)
+```
+
+For Q-FARM's `.env` configuration, the application reads the key using:
+
+```python
+os.getenv("GEMINI_API_KEY")
+```
+
+Your API key should remain local to your own installation.
+
 ## 🌍 Potential Impact
 
 Q-FARM aims to explore how accessible AI and emerging optimization technologies can support:
