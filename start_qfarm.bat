@@ -1,4 +1,3 @@
-
 @echo off
 title Q-FARM Launcher
 color 0A
@@ -8,18 +7,18 @@ echo        Q-FARM ONE-CLICK LAUNCHER
 echo ========================================
 echo.
 
-set "PROJECT_DIR=C:\Users\Alien C Jomon\Documents\Q-FARM"
+set "PROJECT_DIR=%~dp0"
 
 if not exist "%PROJECT_DIR%\.venv\Scripts\activate.bat" (
-    echo ERROR: Python virtual environment not found.
-    echo Check your Q-FARM installation.
+    echo ERROR: Python virtual environment not found in .venv
+    echo Please create the virtual environment and install dependencies first.
     pause
     exit /b 1
 )
 
 echo [1/3] Starting Q-FARM backend...
 
-start "Q-FARM Backend" cmd /k "cd /d ""%PROJECT_DIR%"" && call .venv\Scripts\activate.bat && python -m backend.app"
+start "Q-FARM Backend" cmd /k "cd /d "%PROJECT_DIR%" && call .venv\Scripts\activate.bat && python -m backend.app"
 
 echo.
 echo [2/3] Waiting for the website to start...
