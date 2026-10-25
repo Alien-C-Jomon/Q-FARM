@@ -1,0 +1,5 @@
+Run the cmd commands below inside the Q-FARM Folder before running the project!
+
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
