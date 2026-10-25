@@ -1,2 +1,6 @@
+If you want the project to be running you may wanna download these inside the project!
+
+
 Flask
 python-dotenv
+
